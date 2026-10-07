@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+set -euo pipefail
+# Megatron's dataset Makefile needs the active interpreter's extension suffix.
+if [[ "$*" != --extension-suffix ]]; then
+  echo 'This build helper supports --extension-suffix only' >&2
+  exit 2
+fi
+exec "${PYTHON:?Source native_env.sh first}" -c 'import sysconfig; print(sysconfig.get_config_var("EXT_SUFFIX"))'

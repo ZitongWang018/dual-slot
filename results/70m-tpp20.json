@@ -1,0 +1,18 @@
+{
+  "vanilla": {
+    "validation_loss": 3.074363,
+    "perplexity": 21.63609,
+    "steps": 2836,
+    "parameters": 74325248,
+    "tokens": 1486848768,
+    "seed": 42
+  },
+  "dual-slot": {
+    "validation_loss": 3.037829,
+    "perplexity": 20.85992,
+    "steps": 2836,
+    "parameters": 74325248,
+    "tokens": 1486848768,
+    "seed": 42
+  }
+}

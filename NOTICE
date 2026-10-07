@@ -1,0 +1,5 @@
+Dual Slot
+
+This project uses NVIDIA Megatron-LM as a pinned, unmodified dependency.
+Megatron-LM is distributed under the Apache License 2.0; its license and
+copyright notices are included in vendor/Megatron-LM.
