@@ -20,9 +20,9 @@ Each parallel Jacobi round interleaves latent inputs with prediction inputs and 
 
 ```math
 \left(H^{(k+1)}, Y^{(k+1)}\right)
-= \operatorname{Unzip}\!\left[
-F\!\left(\operatorname{Interleave}\!\left(
-X,\; X + \operatorname{ShiftPrev}\!\left(H^{(k)}\right)
+= \mathrm{Unzip}\!\left[
+F\!\left(\mathrm{Interleave}\!\left(
+X,\; X + \mathrm{ShiftPrev}\!\left(H^{(k)}\right)
 \right)\right)
 \right]
 ```
