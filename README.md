@@ -68,7 +68,7 @@ GPUS=8 bash scripts/train.sh vanilla
 GPUS=8 bash scripts/train.sh dual-slot
 ```
 
-The 70M recipe follows [P2N](https://github.com/hyq718/p2n) (`dd08fc2b`). Vanilla and Dual Slot use the same physical layers and native Megatron dataset, optimizer, scheduler and checkpoint pipeline.
+Vanilla and Dual Slot use the same physical layers and native Megatron dataset, optimizer, scheduler and checkpoint pipeline.
 
 | Setting | Value |
 | --- | --- |
