@@ -10,17 +10,26 @@ Dual Slot reuses a shared Transformer core through parallel latent and predictio
 
 ![Dual Slot: parallel training and autoregressive decoding](assets/dual-slot-overview.png)
 
-Split the Transformer into prefix, core and suffix. The prefix produces fixed representations X. A warm core pass initializes the latent states:
+Split the Transformer into prefix, core and suffix. The prefix produces fixed representations $X$. A warm core pass initializes the latent states:
 
-<img src="assets/warm-pass.png" alt="Warm core pass" width="200">
+```math
+H^{(0)} = F(X)
+```
 
 Each parallel Jacobi round interleaves latent inputs with prediction inputs and applies the shared core:
 
-<img src="assets/paired-update.png" alt="Dual Slot paired update" width="960">
+```math
+\left(H^{(k+1)}, Y^{(k+1)}\right)
+= \operatorname{Unzip}\!\left[
+F\!\left(\operatorname{Interleave}\!\left(
+X,\; X + \operatorname{ShiftPrev}\!\left(H^{(k)}\right)
+\right)\right)
+\right]
+```
 
-H contains latent states; Y contains prediction states. ShiftPrev shifts the latent states one token right, with zeros at window starts and document boundaries. The two slots share token positions and use latent-first causal ordering. Only latent outputs provide feedback; the suffix and language-model head consume the final prediction states.
+$H$ contains latent states; $Y$ contains prediction states. ShiftPrev shifts the latent states one token right, with zeros at window starts and document boundaries. The two slots share token positions and use latent-first causal ordering. Only latent outputs provide feedback; the suffix and language-model head consume the final prediction states.
 
-The core shares parameters across the warm pass and all rounds, with gradients through the complete computation. Training samples K from {2, 3}; evaluation uses K = 3.
+The core shares parameters across the warm pass and all rounds, with gradients through the complete computation. Training samples $K \in \{2, 3\}$; evaluation uses $K = 3$.
 
 ## Results
 
