@@ -1,18 +1,24 @@
 {
   "vanilla": {
-    "validation_loss": 3.074363,
-    "perplexity": 21.63609,
+    "validation_loss": 3.066579,
+    "perplexity": 21.46834,
     "steps": 2836,
     "parameters": 74325248,
     "tokens": 1486848768,
-    "seed": 42
+    "seed": 42,
+    "final_evaluation_loss": 3.074363,
+    "final_evaluation_perplexity": 21.63609,
+    "final_evaluation_data": "validation corpus through Megatron final test entry"
   },
   "dual-slot": {
-    "validation_loss": 3.037829,
-    "perplexity": 20.85992,
+    "validation_loss": 3.028265,
+    "perplexity": 20.66136,
     "steps": 2836,
     "parameters": 74325248,
     "tokens": 1486848768,
-    "seed": 42
+    "seed": 42,
+    "final_evaluation_loss": 3.037829,
+    "final_evaluation_perplexity": 20.85992,
+    "final_evaluation_data": "validation corpus through Megatron final test entry"
   }
 }

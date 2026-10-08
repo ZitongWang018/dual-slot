@@ -31,14 +31,14 @@ The core shares parameters across the warm pass and all rounds, with gradients t
 
 ![Training loss: vanilla and dual-slot](assets/training-loss.png)
 
-70M models trained for 1.487B tokens (TPP20), with the same parameters, data order and optimizer settings. Curves show training loss with exponential smoothing (0.997).
+70M models trained for 1.487B tokens (TPP20), with the same parameters, data order and optimizer settings. Curves show training loss with exponential smoothing (0.997). Dual Slot uses additional core computation; this comparison controls parameter count and training tokens.
 
 | Model | Parameters | Validation loss | Perplexity |
 | --- | ---: | ---: | ---: |
-| vanilla | 74,325,248 | 3.0744 | 21.6361 |
-| dual-slot | 74,325,248 | **3.0378** | **20.8599** |
+| vanilla | 74,325,248 | 3.0666 | 21.4683 |
+| dual-slot | 74,325,248 | **3.0283** | **20.6614** |
 
-Raw training and validation metrics are in [results/](results). Render the figure with `python scripts/plot_results.py` after installing `requirements-plot.txt`; PNG, SVG and PDF are included in [assets/](assets).
+The table reports the final regular validation at step 2836, with seed 42. Raw training and validation metrics are in [results/](results). Render the figure with `python scripts/plot_results.py` after installing `requirements-plot.txt`; PNG, SVG and PDF are included in [assets/](assets).
 
 ## Setup
 
