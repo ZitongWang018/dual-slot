@@ -6,6 +6,22 @@ Dual Slot reuses a shared Transformer core through parallel latent and predictio
 
 [Paper](docs/paper.pdf) · [Training configuration](configs/70m.sh) · [Results](results)
 
+## Method
+
+![Dual Slot: parallel training and autoregressive decoding](assets/dual-slot-overview.png)
+
+Split the Transformer into prefix, core and suffix. The prefix produces fixed representations X. A warm core pass initializes the latent states:
+
+<img src="assets/warm-pass.png" alt="Warm core pass" width="200">
+
+Each parallel Jacobi round interleaves latent inputs with prediction inputs and applies the shared core:
+
+<img src="assets/paired-update.png" alt="Dual Slot paired update" width="960">
+
+H contains latent states; Y contains prediction states. ShiftPrev shifts the latent states one token right, with zeros at window starts and document boundaries. The two slots share token positions and use latent-first causal ordering. Only latent outputs provide feedback; the suffix and language-model head consume the final prediction states.
+
+The core shares parameters across the warm pass and all rounds, with gradients through the complete computation. Training samples K from {2, 3}; evaluation uses K = 3.
+
 ## Results
 
 ![Training loss: vanilla and dual-slot](assets/training-loss.png)
@@ -18,19 +34,6 @@ Dual Slot reuses a shared Transformer core through parallel latent and predictio
 | dual-slot | 74,325,248 | **3.0378** | **20.8599** |
 
 Raw training and validation metrics are in [results/](results). Render the figure with `python scripts/plot_results.py` after installing `requirements-plot.txt`; PNG, SVG and PDF are included in [assets/](assets).
-
-## Method
-
-Split the Transformer into prefix, core and suffix. The prefix produces fixed representations $X$, and a warm core pass initializes latent states $L^{(0)}=F(X)$. Each parallel round computes
-
-$$
-\left(L^{(k)},Y^{(k)}\right)
-=\operatorname{Unzip}\!\left[
-F\!\left(\operatorname{Interleave}\!\left(X,\,X+\operatorname{ShiftPrev}(L^{(k-1)})\right)\right)
-\right].
-$$
-
-Latent and prediction slots share token positions and use latent-first causal ordering. Only latent outputs provide feedback to the next round; the suffix and language-model head consume the final prediction states $Y^{(K)}$. The core shares parameters across the warm pass and all rounds, with gradients through the complete computation. Training samples $K\in\{2,3\}$; evaluation uses $K=3$.
 
 ## Setup
 
