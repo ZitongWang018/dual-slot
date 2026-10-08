@@ -16,18 +16,14 @@ Split the Transformer into prefix, core and suffix. The prefix produces fixed re
 H^{(0)} = F(X)
 ```
 
-Each parallel Jacobi round interleaves latent inputs with prediction inputs and applies the shared core:
+Each parallel Jacobi round keeps the latent input fixed and adds previous-token feedback to the prediction input:
 
 ```math
 \left(H^{(k+1)}, Y^{(k+1)}\right)
-= \mathrm{Unzip}\!\left[
-F\!\left(\mathrm{Interleave}\!\left(
-X,\; X + \mathrm{ShiftPrev}\!\left(H^{(k)}\right)
-\right)\right)
-\right]
+= F_{\mathrm{slot}}\left(X,\; X + \mathrm{Shift}(H^{(k)})\right)
 ```
 
-$H$ contains latent states; $Y$ contains prediction states. ShiftPrev shifts the latent states one token right, with zeros at window starts and document boundaries. The two slots share token positions and use latent-first causal ordering. Only latent outputs provide feedback; the suffix and language-model head consume the final prediction states.
+$F_{\mathrm{slot}}$ interleaves the two inputs, runs the same core F, and separates latent outputs H from prediction outputs Y. Shift moves latent states one token right, with zeros at window starts and document boundaries. Both slots share token positions and use latent-first causal ordering. Only H provides feedback; the suffix and language-model head consume the final Y.
 
 The core shares parameters across the warm pass and all rounds, with gradients through the complete computation. Training samples $K \in \{2, 3\}$; evaluation uses $K = 3$.
 
